@@ -1,0 +1,70 @@
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  min-width: 100dvw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  text-align: center;
+}
+
+header {
+  background-color: bisque;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+main {
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+article {
+  font-size: 2rem;
+}
+
+#wrapper {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.card {
+  border-radius: 0.8em;
+  width: 30vw;
+  aspect-ratio: 1 / 1;
+  transition: all ease 0.5s;
+  background-size: cover;
+  background-position: center;
+}
+
+.card[value="stone"] {
+  background-image: url("./images/rock.jpeg");
+}
+
+.card[value="paper"] {
+  background-image: url("./images/paper.jpeg");
+}
+
+.card[value="scissors"] {
+  background-image: url("./images/scissors.jpeg");
+}
+
+.hidden {
+  display: none;
+}
+
+.card:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 4px 4px 2px red;
+}
+
+#result {
+  color: blueviolet;
+  font-size: 2.5rem;
+}
