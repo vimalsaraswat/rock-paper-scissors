@@ -1,6 +1,7 @@
 const options = ["stone", "paper", "scissors"];
-const cards = document.querySelectorAll(".card");
+const cards = document.querySelectorAll(".option");
 const result = document.querySelector("#result");
+const compCard = document.querySelector("#comp");
 
 cards.forEach((card) => {
   card.addEventListener("click", () => {
@@ -9,14 +10,13 @@ cards.forEach((card) => {
     });
     card.classList.remove("hidden");
     let user = card.getAttribute("value");
-    let comp = compCard();
+    let comp = compPlay();
     let winner = chooseWinner(user, comp);
     displayWinner(winner);
   });
 });
 
-function compCard() {
-  let compCard = document.querySelector("#comp");
+function compPlay() {
   let opt = options[Math.floor(Math.random() * 3)];
 
   compCard.setAttribute("value", opt);
@@ -51,4 +51,13 @@ function displayWinner(winner) {
   } else if (winner === "tie") {
     result.innerHTML = "Its a tie.";
   }
+  result.showModal();
+  setTimeout(() => {
+    result.innerHTML = "";
+    cards.forEach((card) => {
+      card.classList.remove("hidden");
+      compCard.classList.add("hidden");
+      result.close();
+    });
+  }, 800);
 }
