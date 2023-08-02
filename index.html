@@ -10,11 +10,16 @@
   <body>
     <header><h1>Rock Paper Scissors</h1></header>
     <main>
-      <section id="wrapper">
+      <button onclick="gameStart()" id="start-button">Are you Ready?</button>
+      <section>
+        <div class="hidden">You: <span id="user-score">0</span></div>
+        <div class="hidden">Bot: <span id="comp-score">0</span></div>
+      </section>
+      <section id="cards-wrapper">
         <div value="stone" class="card option"></div>
         <div value="paper" class="card option"></div>
         <div value="scissors" class="card option"></div>
-        <div id="comp" class="card comp hidden"></div>
+        <div id="comp-card" class="card comp hidden"></div>
       </section>
       <dialog id="result">ghjdtj</dialog>
     </main>

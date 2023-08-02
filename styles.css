@@ -1,6 +1,7 @@
 body {
   margin: 0;
   padding: 0;
+  background: #ece5c7;
   min-height: 100vh;
   min-width: 100dvw;
   display: flex;
@@ -9,26 +10,37 @@ body {
   text-align: center;
 }
 
-header {
-  background-color: bisque;
+h1 {
+  font-size: 3.5rem;
+  color: #116a7b;
 }
 
-h1 {
-  font-size: 3rem;
+button {
+  color: #222;
+  padding: 8px;
+  font-size: 1.8rem;
+  background: #fffbeb;
+  height: 3rem;
+  width: 40%;
+  border-color: #CDC2AE;
+  border-radius: 0.5rem;
 }
 
 main {
   height: 60vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1.5rem;
 }
 
 article {
   font-size: 2rem;
 }
 
-#wrapper {
+#cards-wrapper {
+  width: 100%;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -38,7 +50,7 @@ article {
   border-radius: 0.8em;
   width: 30vw;
   aspect-ratio: 1 / 1;
-  transition: all ease 0.5s;
+  transition: all ease 0.4s;
   background-size: cover;
   background-position: center;
 }
@@ -61,10 +73,15 @@ article {
 
 .card:hover {
   transform: translate(-4px, -4px);
-  box-shadow: 4px 4px 2px red;
+  box-shadow: 4px 4px 2px #cdc2ae;
 }
 
 #result {
   color: blueviolet;
   font-size: 2.5rem;
+}
+
+footer {
+  font-size: 1.5rem;
+  color: #116a7b;
 }
