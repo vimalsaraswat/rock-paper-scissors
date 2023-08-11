@@ -2,10 +2,10 @@ const options = ["stone", "paper", "scissors"];
 
 const userCards = document.querySelectorAll(".option");
 const compCard = document.querySelector("#comp-card");
-
-const score = document.querySelector("#score");
 const userScoreCard = document.querySelector("#user-score");
 const compScoreCard = document.querySelector("#comp-score");
+
+const score = document.querySelector("#score");
 const result = document.querySelector("#result");
 const modal = document.querySelector("#modal");
 
@@ -58,9 +58,9 @@ async function displayWinner(winner) {
       });
       compCard.classList.add("hidden");
       modal.close();
-      modal.classList.add("hidden");
+
       resolve(); // Resolve the promise to signal completion
-    }, 500);
+    }, 800);
   });
 }
 
@@ -71,17 +71,17 @@ function showFinalWinner() {
   } else if (compScore > userScore) {
     winStr = "The Bot defeated You!";
   }
+  document.querySelector("#replay").classList.remove("hidden");
 
   result.innerHTML = winStr;
   modal.showModal();
 }
 
 async function gameStart() {
-  modal.close();
-  console.log("in start");
+  resetGame();
   score.classList.remove("hidden");
   document.querySelector("#start-button").classList.add("hidden");
-  document.querySelector(".restart").classList.remove("hidden");
+  document.querySelector("#restart").classList.remove("hidden");
 
   function handleClickWrapper(card) {
     return async () => {
@@ -123,7 +123,7 @@ function chooseWinner(user, comp) {
 }
 
 // Resets the game to the original state
-function restartGame() {
+function resetGame() {
   // Reset scores and score cards
   compScore = 0;
   userScore = 0;
@@ -136,8 +136,9 @@ function restartGame() {
   });
   compCard.classList.add("hidden");
 
-  // Hide result modal and show start button
-  document.querySelector("#start-button").classList.remove("hidden");
+  // Hide result modal, replay button, restart button and show start button
   modal.close();
-  modal.classList.add("hidden");
+  document.querySelector("#replay").classList.add("hidden");
+  document.querySelector("#restart").classList.add("hidden");
+  document.querySelector("#start-button").classList.remove("hidden");
 }

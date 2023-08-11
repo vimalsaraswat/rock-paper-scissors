@@ -14,8 +14,8 @@
     </header>
     <main>
       <button onclick="gameStart()" id="start-button">Are you Ready?</button>
-      <button class="restart hidden" type="submit" onclick="restartGame()">
-        Replay
+      <button id="restart" class="hidden" type="submit" onclick="resetGame()">
+        Restart
       </button>
       <section class="hidden" id="score">
         <div>You: <span id="user-score">0</span></div>
@@ -29,9 +29,7 @@
       </section>
       <dialog id="modal">
         <span id="result"></span>
-        <button class="restart" type="submit" onclick="restartGame()">
-          Replay
-        </button>
+        <button id="replay" type="submit" onclick="gameStart()">Replay</button>
       </dialog>
     </main>
     <footer>
