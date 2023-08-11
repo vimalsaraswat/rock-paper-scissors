@@ -3,47 +3,107 @@ const options = ["stone", "paper", "scissors"];
 const userCards = document.querySelectorAll(".option");
 const compCard = document.querySelector("#comp-card");
 
+const score = document.querySelector("#score");
 const userScoreCard = document.querySelector("#user-score");
 const compScoreCard = document.querySelector("#comp-score");
 const result = document.querySelector("#result");
+const modal = document.querySelector("#modal");
 
 let compScore = 0;
 let userScore = 0;
 
-async function main() {
-  userCards.forEach((card) => {
-    card.addEventListener("click", handleClick);
-  });
-}
-
-async function handleClick() {
+async function handleClick(ccard) {
   userCards.forEach((card) => {
     card.classList.add("hidden");
   });
-  this.classList.remove("hidden");
-  let user = this.getAttribute("value");
+  ccard.classList.remove("hidden");
+  compCard.classList.remove("hidden");
+
+  let user = ccard.getAttribute("value");
   let comp = compPlay();
   let winner = chooseWinner(user, comp);
-  await displayWinner(winner);
 
-  if (compScore >= 2 || userScore >= 2) {
-    console.log(userScore);
-    userCards.forEach((card) => {
-      card.removeEventListener("click", handleClick); // Remove event listener here
-    });
-    return;
-  }
+  await displayWinner(winner);
 }
 
 function compPlay() {
   let opt = options[Math.floor(Math.random() * 3)];
-
   compCard.setAttribute("value", opt);
-  compCard.classList.remove("hidden");
-
   return opt;
 }
 
+async function displayWinner(winner) {
+  let resStr;
+  if (winner === "user") {
+    resStr = "You Won";
+    userScore += 1;
+  } else if (winner === "comp") {
+    resStr = "You Lose";
+    compScore++;
+  } else if (winner === "tie") {
+    resStr = "Its a tie.";
+  }
+  userScoreCard.innerHTML = userScore;
+  compScoreCard.innerHTML = compScore;
+
+  console.log(resStr);
+  result.innerHTML = resStr;
+  modal.showModal();
+
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      result.innerHTML = "";
+      userCards.forEach((card) => {
+        card.classList.remove("hidden");
+      });
+      compCard.classList.add("hidden");
+      modal.close();
+      modal.classList.add("hidden");
+      resolve(); // Resolve the promise to signal completion
+    }, 500);
+  });
+}
+
+function showFinalWinner() {
+  let winStr = "";
+  if (userScore > compScore) {
+    winStr = "You just defeated the Bot";
+  } else if (compScore > userScore) {
+    winStr = "The Bot defeated You!";
+  }
+
+  result.innerHTML = winStr;
+  modal.showModal();
+}
+
+async function gameStart() {
+  modal.close();
+  console.log("in start");
+  score.classList.remove("hidden");
+  document.querySelector("#start-button").classList.add("hidden");
+  document.querySelector(".restart").classList.remove("hidden");
+
+  function handleClickWrapper(card) {
+    return async () => {
+      await handleClick(card);
+
+      if (compScore >= 5 || userScore >= 5) {
+        console.log(userScore);
+        showFinalWinner();
+        userCards.forEach((card) => {
+          card.removeEventListener("click", handleClickWrapper);
+        });
+        console.log("I am out of main");
+      }
+    };
+  }
+
+  userCards.forEach((card) => {
+    card.addEventListener("click", handleClickWrapper(card));
+  });
+}
+
+// Choose winner from the winning criteria
 function chooseWinner(user, comp) {
   if (user === comp) {
     return "tie";
@@ -62,36 +122,22 @@ function chooseWinner(user, comp) {
   }
 }
 
-async function displayWinner(winner) {
-  if (winner === "user") {
-    result.innerHTML = "You Won";
-    userScore += 1;
-  } else if (winner === "comp") {
-    result.innerHTML = "You Lose";
-    compScore++;
-  } else if (winner === "tie") {
-    result.innerHTML = "Its a tie.";
-  }
-  result.showModal();
-  setTimeout(() => {
-    result.innerHTML = "";
-    userCards.forEach((card) => {
-      card.classList.remove("hidden");
-    });
-    compCard.classList.add("hidden");
-    result.close();
-  }, 500);
-}
+// Resets the game to the original state
+function restartGame() {
+  // Reset scores and score cards
+  compScore = 0;
+  userScore = 0;
+  userScoreCard.innerHTML = 0;
+  compScoreCard.innerHTML = 0;
 
-async function gameStart() {
-  document.querySelector("#start-button").classList.add("hidden");
-  await main();
-  console.log("I am out of main");
-  if (userScore > compScore) {
-    result.innerHTML = "You just defeated the Bot";
-    result.showModal();
-  } else if (compScore > userScore) {
-    result.innerHTML = "The Bot defeated You!";
-    result.showModal();
-  }
+  // Show all user cards and hide comp card
+  userCards.forEach((card) => {
+    card.classList.remove("hidden");
+  });
+  compCard.classList.add("hidden");
+
+  // Hide result modal and show start button
+  document.querySelector("#start-button").classList.remove("hidden");
+  modal.close();
+  modal.classList.add("hidden");
 }
