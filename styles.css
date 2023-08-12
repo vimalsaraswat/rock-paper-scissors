@@ -1,7 +1,8 @@
 body {
   margin: 0;
   padding: 0;
-  background: #ece5c7;
+  background: linear-gradient(#f6fa70 60%, #0079ff);
+  color: #0079ff;
   min-height: 100vh;
   min-width: 100dvw;
   display: flex;
@@ -12,11 +13,10 @@ body {
 
 h1 {
   font-size: 3.5rem;
-  color: #116a7b;
+  text-shadow: 3px 2px 2px #ff0060;
 }
 
 button {
-  color: #222;
   padding: 8px;
   font-size: 1.8rem;
   background: #fffbeb;
@@ -74,7 +74,6 @@ article {
 }
 
 #modal[open] {
-  color: blueviolet;
   font-size: 2.5rem;
   display: flex;
   flex-direction: column;
@@ -82,7 +81,7 @@ article {
 
 footer {
   font-size: 1.5rem;
-  color: #116a7b;
+  color: #eee;
 }
 
 .hidden {
