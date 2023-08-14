@@ -17,7 +17,7 @@
       <button id="restart" class="hidden" type="submit" onclick="resetGame()">
         Restart
       </button>
-      <section class="hidden" id="score">
+      <section id="score">
         <div>You: <span id="user-score">0</span></div>
         <div>Bot: <span id="comp-score">0</span></div>
       </section>
@@ -27,7 +27,7 @@
         <div value="scissors" class="card option"></div>
         <div id="comp-card" class="card comp hidden"></div>
       </section>
-      <dialog id="modal">
+      <dialog id="modal" data-status="">
         <span id="result"></span>
         <button id="replay" type="submit" onclick="gameStart()">Replay</button>
       </dialog>

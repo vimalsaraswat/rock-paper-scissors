@@ -36,9 +36,11 @@ async function displayWinner(winner) {
   let resStr;
   if (winner === "user") {
     resStr = "You Won";
+    modal.setAttribute("data-status", "win");
     userScore += 1;
   } else if (winner === "comp") {
     resStr = "You Lose";
+    modal.setAttribute("data-status", "lose");
     compScore++;
   } else if (winner === "tie") {
     resStr = "Its a tie.";
@@ -46,7 +48,6 @@ async function displayWinner(winner) {
   userScoreCard.innerHTML = userScore;
   compScoreCard.innerHTML = compScore;
 
-  console.log(resStr);
   result.innerHTML = resStr;
   modal.showModal();
 
@@ -58,6 +59,7 @@ async function displayWinner(winner) {
       });
       compCard.classList.add("hidden");
       modal.close();
+      modal.setAttribute("data-status", "");
 
       resolve(); // Resolve the promise to signal completion
     }, 800);
@@ -88,12 +90,10 @@ async function gameStart() {
       await handleClick(card);
 
       if (compScore >= 5 || userScore >= 5) {
-        console.log(userScore);
         showFinalWinner();
         userCards.forEach((card) => {
           card.removeEventListener("click", handleClickWrapper);
         });
-        console.log("I am out of main");
       }
     };
   }
@@ -136,8 +136,9 @@ function resetGame() {
   });
   compCard.classList.add("hidden");
 
-  // Hide result modal, replay button, restart button and show start button
+  // Hide scores, result modal, replay button, restart button and show start button
   modal.close();
+  document.querySelector("#score").classList.add("hidden");
   document.querySelector("#replay").classList.add("hidden");
   document.querySelector("#restart").classList.add("hidden");
   document.querySelector("#start-button").classList.remove("hidden");
