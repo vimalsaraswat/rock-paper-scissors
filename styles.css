@@ -1,10 +1,12 @@
 body {
   margin: 0;
   padding: 0;
-  background: linear-gradient(#f6fa70 60%, #0079ff);
+  min-width: 100vw;
+  min-height: 100dvh;
+  max-width: 100dvh;
   color: #0079ff;
-  min-height: 100vh;
-  min-width: 100dvw;
+  background: linear-gradient(#f6fa70 60%, #0079ff);
+  background-attachment: fixed;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -13,14 +15,13 @@ body {
 
 h1 {
   font-size: 3.5rem;
-  text-shadow: 3px 2px 2px #ff0060;
+  text-shadow: 3px 2px 2px #ff0062ee;
 }
 
 button {
   padding: 8px;
   font-size: 1.8rem;
   background: #fffbeb;
-  height: 3rem;
   width: 40%;
   border-color: #cdc2ae;
   border-radius: 0.5rem;
@@ -30,9 +31,17 @@ main {
   height: 60vh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   gap: 1.5rem;
+}
+
+#score {
+  display: flex;
+  gap: 6rem;
+  font-size: 2rem;
+  font-weight: 400;
+  color: #eb3131;
 }
 
 article {
@@ -45,11 +54,31 @@ article {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  overflow-y: scroll;
 }
 
+.card[value="stone"] {
+  background-image: url("./images/rock.jpeg");
+}
+.card[value="paper"] {
+  background-image: url("./images/paper.jpeg");
+}
+.card[value="scissors"] {
+  background-image: url("./images/scissors.jpeg");
+}
+
+.card[value="stone"] {
+  background-image: url("./images/rock.jpeg");
+}
+.card[value="paper"] {
+  background-image: url("./images/paper.jpeg");
+}
+.card[value="scissors"] {
+  background-image: url("./images/scissors.jpeg");
+}
 .card {
   border-radius: 0.8em;
-  width: 14rem;
+  width: 25%;
   aspect-ratio: 1 / 1;
   transition: all ease 0.3s;
   background-size: cover;
@@ -62,16 +91,6 @@ article {
 .card:active {
   transform: translate(-1px, -1px);
   box-shadow: 2px 2px 2px #cdc2ae;
-}
-
-.card[value="stone"] {
-  background-image: url("./images/rock.jpeg");
-}
-.card[value="paper"] {
-  background-image: url("./images/paper.jpeg");
-}
-.card[value="scissors"] {
-  background-image: url("./images/scissors.jpeg");
 }
 
 #modal[open] {
@@ -94,7 +113,7 @@ footer {
     flex-wrap: wrap;
   }
   .card {
-    width: calc(50% - 1rem);
+    width: 14rem;
     margin: 0.5rem;
     max-width: none;
   }
