@@ -12,18 +12,20 @@ const modal = document.querySelector("#modal");
 let compScore = 0;
 let userScore = 0;
 
-async function handleClick(ccard) {
+async function handleClick(userCard) {
   userCards.forEach((card) => {
     card.classList.add("hidden");
   });
-  ccard.classList.remove("hidden");
+  userCard.classList.remove("hidden");
   compCard.classList.remove("hidden");
 
-  let user = ccard.getAttribute("value");
+  let user = userCard.getAttribute("value");
   let comp = compPlay();
   let winner = chooseWinner(user, comp);
 
   await displayWinner(winner);
+
+  return;
 }
 
 function compPlay() {
@@ -44,12 +46,12 @@ async function displayWinner(winner) {
     compScore++;
   } else if (winner === "tie") {
     resStr = "Its a tie.";
+    modal.setAttribute("data-status", "tie");
   }
-  userScoreCard.innerHTML = userScore;
-  compScoreCard.innerHTML = compScore;
 
   result.innerHTML = resStr;
   modal.showModal();
+  updateScores();
 
   await new Promise((resolve) => {
     setTimeout(() => {
@@ -66,7 +68,12 @@ async function displayWinner(winner) {
   });
 }
 
-function showFinalWinner() {
+function updateScores() {
+  userScoreCard.innerHTML = userScore;
+  compScoreCard.innerHTML = compScore;
+}
+
+function gameOver() {
   let winStr = "";
   if (userScore > compScore) {
     winStr = "You just defeated the Bot";
@@ -85,21 +92,28 @@ async function gameStart() {
   document.querySelector("#start-button").classList.add("hidden");
   document.querySelector("#restart").classList.remove("hidden");
 
+  // Remove existing event listeners before adding new ones
+  userCards.forEach((card) => {
+    card.removeEventListener("click", card.clickHandler);
+  });
+
   function handleClickWrapper(card) {
-    return async () => {
+    async function handleClickAndCheck() {
       await handleClick(card);
 
       if (compScore >= 5 || userScore >= 5) {
-        showFinalWinner();
-        userCards.forEach((card) => {
-          card.removeEventListener("click", handleClickWrapper);
-        });
+        gameOver();
+        // Remove event listener from the clicked card
+        card.removeEventListener("click", card.clickHandler);
       }
-    };
+    }
+
+    return handleClickAndCheck;
   }
 
   userCards.forEach((card) => {
-    card.addEventListener("click", handleClickWrapper(card));
+    card.clickHandler = handleClickWrapper(card);
+    card.addEventListener("click", card.clickHandler);
   });
 }
 
@@ -127,8 +141,7 @@ function resetGame() {
   // Reset scores and score cards
   compScore = 0;
   userScore = 0;
-  userScoreCard.innerHTML = 0;
-  compScoreCard.innerHTML = 0;
+  updateScores();
 
   // Show all user cards and hide comp card
   userCards.forEach((card) => {
